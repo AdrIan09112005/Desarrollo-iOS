@@ -25,7 +25,7 @@ struct Student {
     let email: String
 }
 
-class Course {  // Cambiado de Courses a Course
+class Course {  
     let code: String
     let name: String
     let level: CourseLevel
@@ -68,7 +68,7 @@ class Course {  // Cambiado de Courses a Course
 // Class Registered
 class Registered_Course {
     let student: Student
-    let course: Course  // Cambiado de Courses a Course
+    let course: Course  
     var grades: [Double]
     
     // Añadir propiedad academicStatus
@@ -115,7 +115,7 @@ class Registered_Course {
 
 class CampusSystem {
     var students: [Student]
-    var courses: [Course]  // Cambiado de Courses a Course
+    var courses: [Course]  
     var registeredCourse: [Registered_Course]
     
     init() {
@@ -154,15 +154,14 @@ class CampusSystem {
     }
     
     func AddCourse(course: Course) {  
-        // Corregido: iterar sobre courses, no sobre course
         for existingCourse in courses {
             if existingCourse.code == course.code {
                 print("A course with that code already exists")
-                return  // Añadido return para evitar duplicados
+                return  
             }
         }
 
-        courses.append(course)  // Corregido: append al array courses
+        courses.append(course) 
         print("Course \(course.name) add corrected")  
     }
     
@@ -181,7 +180,7 @@ class CampusSystem {
             return
         }
 
-        // Found a Course - Corregido: tipo Course
+        // Found a Course
         var foundCourse: Course?
         for course in courses {
             if course.code == codeCourse {
@@ -207,7 +206,7 @@ class CampusSystem {
         if course.registered(student: student) {
             let newEnrollment = Registered_Course(student: student, course: course)
 
-            registeredCourse.append(newEnrollment)  // Corregido: variable name
+            registeredCourse.append(newEnrollment) 
             print("Registration successful") 
         } else {
             print("Registration is not available. The class is full")
@@ -215,7 +214,6 @@ class CampusSystem {
     }
     
     func AddGrades(studentID: Int, codeCourse: String, grade: Double) {
-        // Corregido: tipo Registered_Course
         var targetEnrollment: Registered_Course?
         for enrollment in registeredCourse {
             if enrollment.student.id == studentID && enrollment.course.code == codeCourse {
