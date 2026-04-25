@@ -7,7 +7,7 @@
 
 enum CourseLevel: String {
     case basic = "Basico"
-    case intermidate = "Intermedio"
+    case intermediate = "Intermedio"  
     case advanced = "Avanzado"
 }
 
@@ -25,7 +25,7 @@ struct Student {
     let email: String
 }
 
-class Courses {
+class Course {  // Cambiado de Courses a Course
     let code: String
     let name: String
     let level: CourseLevel
@@ -68,10 +68,22 @@ class Courses {
 // Class Registered
 class Registered_Course {
     let student: Student
-    let course: Courses
+    let course: Course  // Cambiado de Courses a Course
     var grades: [Double]
     
-    init(student: Student, course: Courses) {
+    // Añadir propiedad academicStatus
+    var academicStatus: AcademicStatus {
+        let avg = average
+        if avg >= 9 {
+            return .excelente
+        } else if avg >= 6 {
+            return .aprobado
+        } else {
+            return .reprobado
+        }
+    }
+    
+    init(student: Student, course: Course) {  
         self.student = student
         self.course = course
         self.grades = []
@@ -103,7 +115,7 @@ class Registered_Course {
 
 class CampusSystem {
     var students: [Student]
-    var courses: [Courses]
+    var courses: [Course]  // Cambiado de Courses a Course
     var registeredCourse: [Registered_Course]
     
     init() {
@@ -141,18 +153,20 @@ class CampusSystem {
         print("Student \(student.name) add corrected")
     }
     
-    func AddCourse(course: Courses) {
-        for existingCourse in course {
-            if existingCours.code == course.code {
+    func AddCourse(course: Course) {  
+        // Corregido: iterar sobre courses, no sobre course
+        for existingCourse in courses {
+            if existingCourse.code == course.code {
                 print("A course with that code already exists")
+                return  // Añadido return para evitar duplicados
             }
         }
 
-        course.append(course)
+        courses.append(course)  // Corregido: append al array courses
         print("Course \(course.name) add corrected")  
     }
     
-    func Record (studentID: Int, codeCourse: String) {
+    func Record(studentID: Int, codeCourse: String) {
         // Find a student
         var foundStudent: Student?
         for student in students {
@@ -167,7 +181,7 @@ class CampusSystem {
             return
         }
 
-        // Found a Couse 
+        // Found a Course - Corregido: tipo Course
         var foundCourse: Course?
         for course in courses {
             if course.code == codeCourse {
@@ -193,16 +207,16 @@ class CampusSystem {
         if course.registered(student: student) {
             let newEnrollment = Registered_Course(student: student, course: course)
 
-            registeredCourse.append(newEnrolloment)
+            registeredCourse.append(newEnrollment)  // Corregido: variable name
             print("Registration successful") 
         } else {
             print("Registration is not available. The class is full")
         }
     }
     
-    func AddGrades (studentID: Int, codeCourse: String, grade: Double) {
-        // 
-        var targetEnrollment: registered_Course?
+    func AddGrades(studentID: Int, codeCourse: String, grade: Double) {
+        // Corregido: tipo Registered_Course
+        var targetEnrollment: Registered_Course?
         for enrollment in registeredCourse {
             if enrollment.student.id == studentID && enrollment.course.code == codeCourse {
                 targetEnrollment = enrollment
@@ -220,7 +234,7 @@ class CampusSystem {
 
     // Show Final Report
     func ShowFinalReport() {
-        print("\n=== REPORTE FINAL ===")
+        print("\n=== FINAL REPORT ===")
 
         if registeredCourse.isEmpty {
             print("There are no entries on record")
@@ -239,17 +253,17 @@ class CampusSystem {
 }
     
 
-// People
+// Students
 let estudiante1 = Student(id: 1, name: "Ana", age: 20, email: "ana@gmail.com")
 let estudiante2 = Student(id: 2, name: "Charly", age: 21, email: "charl@gmail.com")
 let estudiante3 = Student(id: 3, name: "Alberch", age: 23, email: "alberch@gmail.com")
 
-// Create Courses 
+// Create Courses - CORREGIDO: todos usan Course
 let course1 = Course(code: "SW101", name: "Swift Basic", level: .basic, MaxCapacity: 2)
-let course2 = Courses(code: "SW102", name: "Swift Intermidate", level: .intermidate, MaxCapacity: 3)
+let course2 = Course(code: "SW102", name: "Swift Intermediate", level: .intermediate, MaxCapacity: 3)  // Corregido spelling
 let course3 = Course(code: "SW103", name: "Swift Advanced", level: .advanced, MaxCapacity: 2)
 
-// Crear System
+// Create System
 let system = CampusSystem()
 
 // System testing
