@@ -151,6 +151,7 @@ class CampusSystem {
         // AddStudent
         students.append(student)
         print("Student \(student.name) add corrected")
+        print("")
     }
     
     func AddCourse(course: Course) {  
@@ -163,6 +164,7 @@ class CampusSystem {
 
         courses.append(course) 
         print("Course \(course.name) add corrected")  
+        print("")
     }
     
     func Record(studentID: Int, codeCourse: String) {
@@ -207,7 +209,7 @@ class CampusSystem {
             let newEnrollment = Registered_Course(student: student, course: course)
 
             registeredCourse.append(newEnrollment) 
-            print("Registration successful") 
+            print("Registration successful\n") 
         } else {
             print("Registration is not available. The class is full")
         }
